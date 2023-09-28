@@ -9,8 +9,6 @@
 
     - name: Build Docker Image
       command: docker build -t apache2 .
-      args:
-        chdir: /var/lib/jenkins/workspace/job1
 
     - name: tag image
       command: docker tag apache2:latest rajuboddu/apache2:latest 
