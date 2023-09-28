@@ -1,10 +1,10 @@
 ---
 - name: installing httpd
-  hosts: webservers
+  hosts: doc
   become: true
   tasks: 
   - name: installing httpd package 
-    yum: 
+    apt: 
       name: httpd
       state: installed
     notify: start httpd service
