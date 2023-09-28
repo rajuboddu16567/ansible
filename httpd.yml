@@ -1,0 +1,28 @@
+- name: docker build and push
+  hosts: local  # Replace with the hostname or IP address of your target server
+  become: yes  # Run tasks with sudo privileges
+
+  tasks:
+    - name: Update apt package cache
+      apt:
+        update_cache: yes   
+
+    - name: Build Docker Image
+      command: docker build -t apache2 .
+      args:
+        chdir: /var/lib/jenkins/workspace/apache2
+
+    - name: tag image
+      command: docker tag apache2:latest rajuboddu/apache2:latest 
+
+    - name: Log in to Docker Hub
+      community.docker.docker_login:
+        registry_url: https://index.docker.io/v1/
+        username: rajuboddu
+        password: dckr_pat_CUppp87mkJQdeiIHWobc-0NBH1s
+
+    - name: Push image
+      command: docker push rajuboddu/apache2:latest
+
+    - name: Run container
+      command: docker run -d --name mypet1 -p 8082:80 rajuboddu/apache2:latest
